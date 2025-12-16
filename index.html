@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная галерея артефактов</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/script.js"></script>
+</head>
+<body>
+    <!-- Баннер ошибки -->
+    <div id="error-banner" class="error-banner hidden">
+        <span id="error-message">Пожалуйста, заполните все обязательные поля!</span>
+        <button id="close-error-btn" class="btn-close">×</button>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="btn-close">×</button>
+            <div class="modal-body">
+                <img id="modal-image" class="modal-image" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZWVlZWVlIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzk5OSI+SW1hZ2UgcGxhY2Vob2xkZXI8L3RleHQ+PC9zdmc+" alt="Изображение артефакта">
+                <div class="modal-info">
+                    <h2 id="modal-title"></h2>
+                    <div class="modal-category" id="modal-category"></div>
+                    <p id="modal-description"></p>
+                    <div class="modal-stats">
+                        <span>Добавлено: <span id="modal-date"></span></span>
+                        <span id="modal-favorite-status"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-top">
+            <div>
+                <h1>🎨 Интерактивная галерея артефактов</h1>
+                <p>Динамическое создание и управление элементами DOM</p>
+            </div>
+            <button id="theme-toggle" class="btn-theme">🌙 Ночной режим</button>
+        </div>
+
+        <div class="controls">
+            <div class="search-container">
+                <input id="search-input" type="text" placeholder="Поиск по категории...">
+                <div class="counter-container">
+                    <span id="artifact-counter" class="counter">Артефактов: 0</span>
+                    <span id="favorite-counter" class="counter">Избранных: 0</span>
+                </div>
+            </div>
+            
+            <!-- Вкладки категорий -->
+            <div class="category-tabs">
+                <button class="tab active" data-category="all">Все</button>
+                <!-- Вкладки будут генерироваться динамически -->
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="add-form-section">
+            <h2>➕ Добавить новый артефакт</h2>
+            <div class="add-form">
+                <div class="form-group">
+                    <label for="artifact-title">Название артефакта *</label>
+                    <input id="artifact-title" placeholder="Например: Звездная ночь" type="text">
+                </div>
+                
+                <div class="form-group">
+                    <label for="artifact-category">Категория *</label>
+                    <div class="category-input-container">
+                        <input id="artifact-category" placeholder="Например: Живопись" type="text">
+                        <span class="category-hint">Новая категория создаст вкладку</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="artifact-image">URL изображения *</label>
+                    <input id="artifact-image" placeholder="https://example.com/image.jpg" type="text">
+                </div>
+                
+                <div class="form-group">
+                    <label for="artifact-description">Описание (необязательно)</label>
+                    <textarea id="artifact-description" placeholder="Краткое описание артефакта..." rows="3"></textarea>
+                </div>
+                
+                <button id="add-btn" class="btn-primary">🎨 Добавить артефакт</button>
+            </div>
+        </section>
+
+        <section class="gallery-section">
+            <h2>🖼️ Галерея артефактов</h2>
+            <!-- Контейнер с переключателем между карточками и таблицей -->
+            <div class="view-switcher">
+                <button id="view-cards-btn" class="view-btn active">Карточки</button>
+                <button id="view-table-btn" class="view-btn">Таблица</button>
+            </div>
+            
+            <!-- Контейнер для карточек -->
+            <div id="gallery" class="gallery-container active-view">
+                <p class="empty-gallery-message">Галерея пуста. Добавьте первый артефакт!</p>
+            </div>
+            
+            <!-- Таблица артефактов (обязательный элемент) -->
+            <div id="table-container" class="table-container">
+                <div class="table-controls">
+                    <button id="sort-date-btn" class="btn-table">Сортировать по дате</button>
+                    <button id="clear-selection-btn" class="btn-table">Снять выделение</button>
+                </div>
+                <table id="artifacts-table" class="artifacts-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Название</th>
+                            <th>Категория</th>
+                            <th>Дата добавления</th>
+                            <th>Избранное</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Данные будут добавляться динамически -->
+                    </tbody>
+                </table>
+                <p class="empty-table-message">Таблица пуста. Добавьте первый артефакт!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Практика №12 — Итоговый проект: Интерактивная галерея артефактов</p>
+        <div class="footer-info">
+            <span>Всего категорий: <span id="category-counter">0</span></span>
+            <span>Последнее обновление: <span id="last-update">-</span></span>
+            <span>Выбрано строк: <span id="selected-rows-counter">0</span></span>
+        </div>
+    </footer>
+</body>
+</html>
